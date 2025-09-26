@@ -26,6 +26,8 @@ The other player should then update its local state. If it for some reason canno
 
 > **Implementation note:** If possible, the ideal way for a participant to perform a received move is to just update it's own state to exactly match the received board. This ensures that differently implemented rules are handeled gracefully.
 
+Once either player thinks their move ends the game should must set the game state part of the MOVE message to indicate this. After a MOVE message with a game state other than `"0-0"` has been sent no more MOVE messages should be sent by either player.
+
 At any point either party can send the QUIT message and close the TCP connection.
 
 ## Serialization
@@ -37,6 +39,7 @@ All messages consist of 128 bytes in total, sent directly in sequence.
 Message A consists of four parts, separated by ':'
 - Message identifier
 - Move
+- Game State
 - New Board
 - Padding
 
@@ -61,6 +64,13 @@ Examples:
 - `"A7A8Q"`
 - `"C7C8r"`
 
+#### Game State
+
+3 characters, either
+- `"0-0"`: The game is on-going
+- `"1-0"`: White has won
+- `"0-1"`: Black has won
+- `"0-1"`: Draw/stalemate
 
 #### New Board
 
@@ -75,16 +85,16 @@ Examples:
 
 #### Padding
 
-This message contains however many '0' characters as necessary to get the message to 128 bytes in total.
+This part contains however many '0' characters as necessary to get the message to 128 bytes in total.
 
-If `board_len` is the length of the "New Board" part (excluding the ':' separators), then the paddings length can be expressed as `128 - 9 - 1 - 5 - 1 - board_len - 1` bytes.
+If `board_len` is the length of the "New Board" part (excluding the ':' separators), then the paddings length can be expressed as `128 - 9 - 1 - 3 - 1 - 5 - 1 - board_len - 1` bytes.
 
 #### Examples
 
 Complete examples of Message A strings.
 
-- `"ChessMOVE:E2E40:rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR:000000000000000000000000000000000000000000000000000000000000000000"`
-- `"ChessMOVE:A2B3Q:8/8/8/8/4K3/8/8/8:0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"` (Note: This move and board are impossible during a valid game, but the protocol doesn't explicitly dissallow that.)
+- `"ChessMOVE:E2E40:0-0:rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR:00000000000000000000000000000000000000000000000000000000000000"`
+- `"ChessMOVE:A2B3Q:1-0:8/8/8/8/4K3/8/8/8:000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"` (Note: This move and board are impossible during a valid game, but the protocol doesn't explicitly dissallow that.)
 
 ### Message B: QUIT
 
