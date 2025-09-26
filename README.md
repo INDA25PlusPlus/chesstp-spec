@@ -108,10 +108,23 @@ Contains two parts, separated by ':'.
 
 9 bytes, the string `"ChessQUIT"`.
 
+#### Optional Message
+
+Up to 117 bytes of an ASCII plaintext message without ':'.
+
+This may be used to specify why the player is exiting.
+
+> If you don't want to bother with this you can just send an empty message (see the first example below).
+
 #### Padding
 
-118 bytes of the repeated character '0'.
+This part contains however many '0' characters as necessary to get the message to 128 bytes in total.
+
+If `message_len` is the length of the "Optional Message" part (excluding the ':' separators), then the paddings length can be expressed as `128 - 1 - message_len - 1` bytes.
+
+The other party may display this if they wish.
 
 #### Example
 
-- `"ChessQUIT:0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"`
+- `"ChessQUIT::000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"`
+- `"ChessQUIT:I had a panic attack:0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"`
