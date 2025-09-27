@@ -70,7 +70,7 @@ Examples:
 - `"0-0"`: The game is on-going
 - `"1-0"`: White has won
 - `"0-1"`: Black has won
-- `"0-1"`: Draw/stalemate
+- `"1-1"`: Draw/stalemate
 
 #### New Board
 
