@@ -98,7 +98,7 @@ Complete examples of Message A strings.
 
 ### Message B: QUIT
 
-Contains two parts, separated by ':'.
+Contains three parts, separated by ':'.
 
 - Message identifier
 - Optional Message
