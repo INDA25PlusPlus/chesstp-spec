@@ -36,7 +36,7 @@ All messages consist of 128 bytes in total, sent directly in sequence.
 
 ### Message A: MOVE
 
-Message A consists of four parts, separated by ':'
+Message A consists of five parts, separated by ':'
 - Message identifier
 - Move
 - Game State
