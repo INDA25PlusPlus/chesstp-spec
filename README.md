@@ -120,11 +120,11 @@ This may be used to specify why the player is exiting.
 
 This part contains however many '0' characters as necessary to get the message to 128 bytes in total.
 
-If `message_len` is the length of the "Optional Message" part (excluding the ':' separators), then the paddings length can be expressed as `128 - 1 - message_len - 1` bytes.
+If `message_len` is the length of the "Optional Message" part (excluding the ':' separators), then the paddings length can be expressed as `128 - 9 - 1 - message_len - 1` bytes.
 
 The other party may display this if they wish.
 
 #### Example
 
 - `"ChessQUIT::000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"`
-- `"ChessQUIT:I had a panic attack:0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"`
+- `"ChessQUIT:I had a panic attack:0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"`
